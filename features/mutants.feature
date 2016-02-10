@@ -4,8 +4,8 @@ Feature: Mutants
     When I create a mutant with these attributes
     | mutant_name | real_name | power      |
     | Whoevs      | Sally Jo  | levitation |
-    And I find the mutant with the same ID
-    Then the mutant should have the following attributes
+    And I find the mutant with the same ID as the one I created
+    Then the mutant I found should have the following attributes
     | mutant_name | real_name | power      |
     | Whoevs      | Sally Jo  | levitation |
 

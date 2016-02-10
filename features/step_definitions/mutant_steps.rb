@@ -1,6 +1,6 @@
 Given(/^there is at least one mutant$/) do
-  @mutant = Mutant.new mutant_name: 'B', power: 'C'
-  @mutant.save
+  @existing_mutant = Mutant.new mutant_name: 'B', power: 'C'
+  @existing_mutant.save
 end
 
 When(/^I retrieve all mutants$/) do
@@ -13,16 +13,16 @@ Then(/^I should have an array of mutants$/) do
 end
 
 When 'I create a mutant with these attributes' do |table|
-  @mutant = Mutant.new(table.hashes.first)
-  @mutant.save
+  @created_mutant = Mutant.new(table.hashes.first)
+  @created_mutant.save
 end
 
-When 'I find the mutant with the same ID' do
-  @mutant = Mutant.find(@mutant.id)
+When 'I find the mutant with the same ID as the one I created' do
+  @found_mutant = Mutant.find(@created_mutant.id)
 end
 
-Then 'the mutant should have the following attributes' do |table|
+Then 'the mutant I found should have the following attributes' do |table|
   table.hashes.first.each do |name, val|
-    expect(@mutant.send(name)).to eq(val)
+    expect(@found_mutant.send(name)).to eq(val)
   end
 end
