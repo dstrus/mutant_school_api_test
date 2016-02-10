@@ -1,16 +1,20 @@
 Given(/^there is at least one (.*)$/) do |resource_name|
+  klass = class_from_resource_name(resource_name)
+  resource = factory_from_resource_name(resource_name).build
+  instance_variable_set("@existing_#{resource_name}", resource)
+  resource.save
+end
+
+When(/^I retrieve all (.*)s$/) do |resource_name|
   klass = Object::const_get(resource_name.capitalize)
-  instance_variable_set("@existing_#{resource_name}", klass.new(mutant_name: 'B', power: 'C'))
-  instance_variable_get("@existing_#{resource_name}").save
+  instance_variable_set("@#{resource_name}s", klass.all)
 end
 
-When(/^I retrieve all mutants$/) do
-  @mutants = Mutant.all
-end
-
-Then(/^I should have an array of mutants$/) do
-  expect(@mutants).to be_an(Array)
-  expect(@mutants.first).to be_a(Mutant)
+Then(/^I should have an array of (.*)s$/) do |resource_name|
+  klass = Object::const_get(resource_name.capitalize)
+  resources = instance_variable_get("@#{resource_name}s")
+  expect(resources).to be_an(Array)
+  expect(resources.first).to be_a(klass)
 end
 
 When /I create (?:a|the) mutant with these attributes/ do |table|
