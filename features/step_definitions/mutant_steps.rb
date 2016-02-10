@@ -1,6 +1,7 @@
-Given(/^there is at least one mutant$/) do
-  @existing_mutant = Mutant.new mutant_name: 'B', power: 'C'
-  @existing_mutant.save
+Given(/^there is at least one (.*)$/) do |resource_name|
+  klass = Object::const_get(resource_name.capitalize)
+  instance_variable_set("@existing_#{resource_name}", klass.new(mutant_name: 'B', power: 'C'))
+  instance_variable_get("@existing_#{resource_name}").save
 end
 
 When(/^I retrieve all mutants$/) do
