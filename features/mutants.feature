@@ -5,9 +5,7 @@ Feature: Mutants
     | mutant_name | real_name | power      |
     | Whoevs      | Sally Jo  | levitation |
     And I find the mutant with the same ID as the one I created
-    Then the mutant I found should have the following attributes
-    | mutant_name | real_name | power      |
-    | Whoevs      | Sally Jo  | levitation |
+    And the mutant I found should match the one I created
 
 
   Scenario: Get all mutants returns mutants
